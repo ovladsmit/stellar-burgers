@@ -17,4 +17,5 @@ export const ConstructorPage: FC = () => (
       <BurgerConstructor />
     </div>
   </main>
+  
 );
