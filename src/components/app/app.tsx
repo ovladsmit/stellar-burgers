@@ -5,14 +5,23 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Preloader } from '@ui';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../services/store';
+import { fetchIngredients, getIngredients, getIngredientsError, getIngredientsLoading } from '../../services/slices/ingredientsSlice'
+import { useEffect } from 'react';
 const App = () => {
+  const dispatch = useDispatch()
   /** TODO: взять переменные из стора */
-  const isIngredientsLoading = false;
-  const ingredients = [{}];
-  const error = null;
+  const isIngredientsLoading = useSelector(getIngredientsLoading);
+  const ingredients = useSelector(getIngredients);
+  const error = useSelector(getIngredientsError);
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch])
   const location = useLocation();
   const navigate = useNavigate();
   const backgroundLocation = location.state?.backgroundLocation;
+
   return (
     <div className={styles.app}>
       <AppHeader />
