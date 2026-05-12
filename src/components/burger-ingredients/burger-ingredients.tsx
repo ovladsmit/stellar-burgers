@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import { getIngredients } from '../../services/slices/ingredientsSlice';
 
 export const BurgerIngredients: FC = () => {
-  /** TODO: взять переменные из стора */
   const ingredients = useSelector(getIngredients)
   const buns = ingredients.filter((item) => item.type === "bun");
   const mains = ingredients.filter((item)=> item.type === "main");

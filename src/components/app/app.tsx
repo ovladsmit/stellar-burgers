@@ -20,7 +20,7 @@ const App = () => {
   }, [dispatch])
   const location = useLocation();
   const navigate = useNavigate();
-  const backgroundLocation = location.state?.backgroundLocation;
+  const background = location.state?.background;
 
   return (
     <div className={styles.app}>
@@ -33,7 +33,7 @@ const App = () => {
         </div>
       ) : ingredients.length > 0 ? (
         <>
-          <Routes location={backgroundLocation || location}>
+          <Routes location={background || location}>
             <Route path='/' element={<ConstructorPage />} />
             <Route path='/feed' element={<Feed />} />
 
@@ -52,7 +52,7 @@ const App = () => {
             <Route path='*' element={<NotFound404 />} />
           </Routes>
 
-          {backgroundLocation && (
+          {background && (
             <Routes>
               <Route path='/feed/:number' element={
                 <Modal title='' onClose={() => navigate(-1)}>

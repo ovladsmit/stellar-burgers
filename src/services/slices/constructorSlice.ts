@@ -21,12 +21,30 @@ const constructorSlice = createSlice({
 
     addIngredient(state, action: PayloadAction<TIngredient>){
       state.ingredients.push(action.payload)
+    },
+
+    removeIngredient(state, action: PayloadAction<number>){
+      state.ingredients.splice(action.payload, 1)
+    },
+
+    moveDown(state, action: PayloadAction<number>){
+      const index = action.payload;
+      const current = state.ingredients[index];
+      state.ingredients[index] = state.ingredients[index + 1];
+      state.ingredients[index + 1] = current;
+    },
+
+    moveUp(state,action: PayloadAction<number>){
+      const index = action.payload;
+      const current = state.ingredients[index];
+      state.ingredients[index] = state.ingredients[index - 1]
+      state.ingredients[index - 1] = current;
     }
   },
   
 })
 
-export const {setBun, addIngredient} = constructorSlice.actions
+export const {setBun, addIngredient, moveDown, moveUp, removeIngredient} = constructorSlice.actions
 
 export const constructorReducer = constructorSlice.reducer
 export const getConstructorItems = (state: RootState) =>
