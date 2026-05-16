@@ -1,4 +1,14 @@
-import { ConstructorPage, Feed, ForgotPassword, Login, NotFound404, Profile, ProfileOrders, Register, ResetPassword } from '@pages';
+import {
+  ConstructorPage,
+  Feed,
+  ForgotPassword,
+  Login,
+  NotFound404,
+  Profile,
+  ProfileOrders,
+  Register,
+  ResetPassword
+} from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -6,10 +16,17 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Preloader } from '@ui';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
-import { fetchIngredients, getIngredients, getIngredientsError, getIngredientsLoading } from '../../services/slices/ingredientsSlice'
+import {
+  fetchIngredients,
+  getIngredients,
+  getIngredientsError,
+  getIngredientsLoading
+} from '../../services/slices/ingredientsSlice';
 import { useEffect } from 'react';
+import { getCookie } from '../../utils/cookie';
+import { authChecked, getUser } from '../../services/slices/userSlice';
 const App = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   /** TODO: взять переменные из стора */
   const isIngredientsLoading = useSelector(getIngredientsLoading);
   const ingredients = useSelector(getIngredients);
@@ -17,7 +34,15 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, [dispatch])
+    if (getCookie('accessToken')) {
+      dispatch(getUser());
+    } else if (localStorage.getItem('refreshToken')) {
+      dispatch(getUser());
+    } else {
+      dispatch(authChecked());
+    }
+  }, [dispatch]);
+
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state?.background;
@@ -39,7 +64,7 @@ const App = () => {
 
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/fogot-password' element={<ForgotPassword />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
             <Route path='/reset-password' element={<ResetPassword />} />
 
             <Route path='/profile' element={<Profile />} />
@@ -54,25 +79,32 @@ const App = () => {
 
           {background && (
             <Routes>
-              <Route path='/feed/:number' element={
-                <Modal title='' onClose={() => navigate(-1)}>
-                  <OrderInfo />
-                </Modal>
-              }
+              <Route
+                path='/feed/:number'
+                element={
+                  <Modal title='' onClose={() => navigate(-1)}>
+                    <OrderInfo />
+                  </Modal>
+                }
               />
 
-              <Route path='/ingredients/:id' element={
-                <Modal title='' onClose={() => navigate(-1)}>
-                  <IngredientDetails />
-                </Modal>
-              }
+              <Route
+                path='/ingredients/:id'
+                element={
+                  <Modal title='' onClose={() => navigate(-1)}>
+                    <IngredientDetails />
+                  </Modal>
+                }
               />
 
-              <Route path='/profile/orders/:number' element={
-                <Modal title='' onClose={() => navigate(-1)}>
-                  <OrderInfo />
-                </Modal>
-              } />
+              <Route
+                path='/profile/orders/:number'
+                element={
+                  <Modal title='' onClose={() => navigate(-1)}>
+                    <OrderInfo />
+                  </Modal>
+                }
+              />
             </Routes>
           )}
         </>

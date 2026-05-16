@@ -7,9 +7,9 @@ import { getIngredients } from '../../services/slices/ingredientsSlice';
 
 export const IngredientDetails: FC = () => {
   /** TODO: взять переменную из стора */
-  const {id} = useParams()
-  const ingredient = useSelector(getIngredients)
-  const ingredientData = ingredient.find((item)=> item._id == id);
+  const { id } = useParams();
+  const ingredient = useSelector(getIngredients);
+  const ingredientData = ingredient.find((item) => item._id == id);
 
   if (!ingredientData) {
     return <Preloader />;

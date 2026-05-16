@@ -4,11 +4,14 @@ import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import { getConstructorItems } from '../../services/slices/constructorSlice';
 import { closeModal } from '../../services/slices/orderSlice';
-import { createOrder, getOrderModalData, getOrderRequest } from '../../services/slices/orderSlice';
+import {
+  createOrder,
+  getOrderModalData,
+  getOrderRequest
+} from '../../services/slices/orderSlice';
 export const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch()
-  const constructorItems = useSelector(getConstructorItems)
-  
+  const dispatch = useDispatch();
+  const constructorItems = useSelector(getConstructorItems);
 
   const orderRequest = useSelector(getOrderRequest);
 
@@ -16,27 +19,24 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
-    dispatch(createOrder([
-      constructorItems.bun._id,
-      ...constructorItems.ingredients.map((item) => item._id),
-      constructorItems.bun._id
-    ]))
+    dispatch(
+      createOrder([
+        constructorItems.bun._id,
+        ...constructorItems.ingredients.map((item) => item._id),
+        constructorItems.bun._id
+      ])
+    );
   };
   const closeOrderModal = () => {
-    dispatch(closeModal())
+    dispatch(closeModal());
   };
 
   const price = useMemo(
     () =>
       (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v) => s + v.price,
-        0
-      ),
+      constructorItems.ingredients.reduce((s: number, v) => s + v.price, 0),
     [constructorItems]
   );
-
-  
 
   return (
     <BurgerConstructorUI

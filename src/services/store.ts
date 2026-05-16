@@ -7,14 +7,18 @@ import {
 } from 'react-redux';
 import { ingredientsReducer } from './slices/ingredientsSlice';
 import { constructorReducer } from './slices/constructorSlice';
-import {orderReducer } from './slices/orderSlice';
+import { orderReducer } from './slices/orderSlice';
 import { ordersReducer } from './slices/ordersSlice';
+import { feedsReducer } from './slices/feedsSlice';
+import { userReducer } from './slices/userSlice';
 const rootReducer = {
   ingredients: ingredientsReducer,
   burgerСonstructor: constructorReducer,
   order: orderReducer,
-  orders: ordersReducer
-}; 
+  orders: ordersReducer,
+  feedsOrders: feedsReducer,
+  user: userReducer
+};
 
 const store = configureStore({
   reducer: rootReducer,

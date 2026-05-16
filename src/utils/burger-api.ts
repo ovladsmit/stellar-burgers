@@ -1,7 +1,7 @@
 import { setCookie, getCookie } from './cookie';
 import { TIngredient, TOrder, TOrdersData, TUser } from './types';
 
-const URL ="https://norma.education-services.ru/api";
+const URL = 'https://norma.education-services.ru/api';
 
 const checkResponse = <T>(res: Response): Promise<T> =>
   res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -74,6 +74,7 @@ type TOrdersResponse = TServerResponse<{
 }>;
 
 export const getIngredientsApi = () =>
+  // Api списка ингредиентов
   fetch(`${URL}/ingredients`)
     .then((res) => checkResponse<TIngredientsResponse>(res))
     .then((data) => {
@@ -82,6 +83,7 @@ export const getIngredientsApi = () =>
     });
 
 export const getFeedsApi = () =>
+  // Api не для авторизированных пользователей для всех заказоа
   fetch(`${URL}/orders/all`)
     .then((res) => checkResponse<TFeedsResponse>(res))
     .then((data) => {
@@ -90,6 +92,7 @@ export const getFeedsApi = () =>
     });
 
 export const getOrdersApi = () =>
+  // Api для авторизированный пользоватлей
   fetchWithRefresh<TFeedsResponse>(`${URL}/orders`, {
     method: 'GET',
     headers: {
@@ -124,7 +127,9 @@ type TNewOrderResponse = TServerResponse<{
   name: string;
 }>;
 
-export const orderBurgerApi = (data: string[]) =>
+export const orderBurgerApi = (
+  data: string[] // Api для создания заказа
+) =>
   fetchWithRefresh<TNewOrderResponse>(`${URL}/orders`, {
     method: 'POST',
     headers: {
@@ -143,7 +148,9 @@ type TOrderResponse = TServerResponse<{
   orders: TOrder[];
 }>;
 
-export const getOrderByNumberApi = (number: number) =>
+export const getOrderByNumberApi = (
+  number: number //Получаем заказ пользователя
+) =>
   fetch(`${URL}/orders/${number}`, {
     method: 'GET',
     headers: {
@@ -163,7 +170,9 @@ type TAuthResponse = TServerResponse<{
   user: TUser;
 }>;
 
-export const registerUserApi = (data: TRegisterData) =>
+export const registerUserApi = (
+  data: TRegisterData // Api для регистрации
+) =>
   fetch(`${URL}/auth/register`, {
     method: 'POST',
     headers: {
