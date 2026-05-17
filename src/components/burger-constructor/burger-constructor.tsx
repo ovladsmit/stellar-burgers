@@ -9,8 +9,12 @@ import {
   getOrderModalData,
   getOrderRequest
 } from '../../services/slices/orderSlice';
+import { useNavigate } from 'react-router-dom';
+import { getUserData } from '../../services/slices/userSlice';
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(getUserData);
   const constructorItems = useSelector(getConstructorItems);
 
   const orderRequest = useSelector(getOrderRequest);
@@ -19,6 +23,10 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     dispatch(
       createOrder([
         constructorItems.bun._id,
