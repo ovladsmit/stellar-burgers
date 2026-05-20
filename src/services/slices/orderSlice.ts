@@ -43,7 +43,8 @@ const orderSlice = createSlice({
     getOrderRequest: (state) => state.orderRequest,
     getOrderModalData: (state) => state.orderModalData,
     getOrderData: (state) => state.orderData,
-    getOrderError: (state) => state.error
+    getOrderError: (state) => state.error,
+    getOrderNumber: (state) => state.orderData?.number
   },
   extraReducers: (builder) => {
     builder
@@ -82,5 +83,6 @@ export const {
   getOrderRequest,
   getOrderModalData,
   getOrderError,
-  getOrderData
+  getOrderData,
+  getOrderNumber
 } = orderSlice.selectors;

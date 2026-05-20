@@ -20,7 +20,7 @@ const initialState: feedOrderState = {
 
 export const fetchFeedOrders = createAsyncThunk(
   'feedsOrders/fetchFeedOrders',
-  async () => await getFeedsApi()
+  getFeedsApi
 );
 
 const feedsOrdersSlice = createSlice({

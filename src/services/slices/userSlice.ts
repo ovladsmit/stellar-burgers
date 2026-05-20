@@ -96,7 +96,8 @@ const userSlice = createSlice({
     getUserLoading: (state) => state.isLoading,
     getUserError: (state) => state.error,
     getAuthChecked: (state) => state.isAuthChecked,
-    getAuthenticated: (state) => state.isAuthenticated
+    getAuthenticated: (state) => state.isAuthenticated,
+    getUserName: (state) => state.user?.name
   },
   extraReducers: (buildel) => {
     buildel
@@ -204,5 +205,6 @@ export const {
   getUserLoading,
   getUserError,
   getAuthChecked,
-  getAuthenticated
+  getAuthenticated,
+  getUserName
 } = userSlice.selectors;

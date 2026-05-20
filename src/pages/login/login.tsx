@@ -14,7 +14,6 @@ export const Login: FC = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const error = useSelector(getUserError);
-  const isAuthenticated = useSelector(getAuthenticated);
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(
@@ -24,10 +23,6 @@ export const Login: FC = () => {
       })
     );
   };
-
-  if (isAuthenticated) {
-    return <Navigate to={'/'} />;
-  }
 
   return (
     <LoginUI
