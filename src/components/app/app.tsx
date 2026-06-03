@@ -86,9 +86,15 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path='/register' element={<Register />} />
-            <Route path='/forgot-password' element={<ForgotPassword />} />
-            <Route path='/reset-password' element={<ResetPassword />} />
+            <ProtectedRoute onlyUnAuth>
+              <Route path='/register' element={<Register />} />
+            </ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
+              <Route path='/forgot-password' element={<ForgotPassword />} />
+            </ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
+              <Route path='/reset-password' element={<ResetPassword />} />
+            </ProtectedRoute>
 
             <Route
               path='/profile'
