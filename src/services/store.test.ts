@@ -6,7 +6,6 @@ import { initialState as ordersInitialState } from './slices/ordersSlice';
 import { initialState as feedsInitialState } from './slices/feedsSlice';
 import { initialState as userInitialState } from './slices/userSlice';
 
-
 test('Инициализация rootReducer', () => {
   const state = rootReducer(undefined, {
     type: 'UNKNOWN_ACTION'
