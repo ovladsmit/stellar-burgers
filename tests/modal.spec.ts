@@ -2,13 +2,10 @@ import {test, expect} from "@playwright/test";
 import ingredients from './mock-data/ingredients.json';
 
 test('открытие модального окна ингредиента', async ({page}) => {
-  await page.route('**/api/ingredients', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(ingredients)
-    });
-  });
+  await page.routeFromHAR('./tests/hars/ingredients.har', {
+    url: '**/api/ingredients',
+    update: false
+  })
 
   await page.goto('/');
 
@@ -23,13 +20,10 @@ test('открытие модального окна ингредиента', as
 });
 
 test('закрытие модального окна ингредиента по крестику', async ({ page }) => {
-  await page.route('**/api/ingredients', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(ingredients)
-    });
-  });
+  await page.routeFromHAR('./tests/hars/ingredients.har', {
+    url: '**/api/ingredients',
+    update: false
+  })
 
   await page.goto('/');
 
@@ -46,3 +40,5 @@ test('закрытие модального окна ингредиента по
 
   await expect(modal).not.toBeVisible();
 });
+
+

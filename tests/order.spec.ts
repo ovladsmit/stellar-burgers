@@ -5,13 +5,10 @@ import { test, expect } from '@playwright/test';
 
 
 test('создание заказа', async ({page}) => {
-  await page.route('**/api/ingredients', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(ingredients)
-    });
-  });
+  await page.routeFromHAR('./tests/hars/ingredients.har', {
+    url: '**/api/ingredients',
+    update: false
+  })
 
   await page.route('**/api/auth/user', async (route) => {
     await route.fulfill({
@@ -45,7 +42,7 @@ test('создание заказа', async ({page}) => {
   await page.goto('/');
 
   const constructor = page.getByTestId('burger-constructor');
-
+  const modal = page.getByTestId('modal');
   await page
     .getByTestId('ingredient-643d69a5c3f7b9001cfa093c')
     .getByRole('button', { name: 'Добавить' })
@@ -57,8 +54,11 @@ test('создание заказа', async ({page}) => {
     .click();
 
   await page.getByRole('button', { name: 'Оформить заказ' }).click();
-  await expect(page.getByText('12345')).toBeVisible();
+  
+  await expect(modal).toBeVisible();
+  await expect(modal.getByText('12345')).toBeVisible();
   await page.getByTestId('modal-close').click();
   await expect(constructor).toContainText('Выберите булки');
   await expect(constructor).toContainText('Выберите начинку');
 })
+

@@ -1,13 +1,10 @@
 import {test, expect} from "@playwright/test";
 import ingredients from './mock-data/ingredients.json';
 test('добавление булки в конструктор', async ({ page }) => {
-  await page.route('**/api/ingredients', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(ingredients)
-    });
-  });
+  await page.routeFromHAR('./tests/hars/ingredients.har', {
+    url: '**/api/ingredients',
+    update: false
+  })
 
   await page.goto('/');
 
@@ -22,13 +19,10 @@ test('добавление булки в конструктор', async ({ page 
 });
 
 test('добавление начинки в конструктор', async ({ page }) => {
-  await page.route('**/api/ingredients', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(ingredients)
-    });
-  });
+  await page.routeFromHAR('./tests/hars/ingredients.har', {
+    url: '**/api/ingredients',
+    update: false
+  })
 
   await page.goto('/');
 
@@ -43,3 +37,5 @@ test('добавление начинки в конструктор', async ({ p
     'Биокотлета из марсианской Магнолии'
   );
 });
+
+
